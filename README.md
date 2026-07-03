@@ -11,6 +11,11 @@ list view. (README becomes a proper sales page at M3.)
 4. `npm run dev`
 5. Submit an enquiry at <http://localhost:3000> — it appears scored at <http://localhost:3000/leads>
 
+**No keys yet?** Set `DRY_RUN=true` in `.env.local` (that can be the file's
+only line) — submitting the form then returns the exact Claude request the
+pipeline would send, so you can inspect the constructed prompt without a
+Supabase project, an API key, or spending tokens.
+
 Scoring rules live in `scoring.config.yaml`. Swap it for a file from
 `config-examples/` to change scoring behaviour with zero code changes:
 `npm run test:scoring -- config-examples/clinic.yaml` shows the same enquiry

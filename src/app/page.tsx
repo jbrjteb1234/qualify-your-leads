@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 
 type Result =
   | { kind: "success"; id: string; status: string; score?: number; band?: string }
+  | { kind: "dry_run"; wouldSend: unknown }
   | { kind: "error"; message: string; fieldErrors?: Record<string, string> };
 
 const inputStyle = { display: "block", width: "100%", padding: "0.4rem", marginTop: "0.2rem" };
@@ -25,7 +26,10 @@ export default function IntakeForm() {
         body: JSON.stringify(data),
       });
       const json = await res.json();
-      if (res.ok) {
+      if (res.ok && json.dry_run) {
+        // Keep the form filled so the prompt can be tweaked and resubmitted.
+        setResult({ kind: "dry_run", wouldSend: json.would_send });
+      } else if (res.ok) {
         setResult({ kind: "success", ...json });
         form.reset();
       } else if (json.errors) {
@@ -91,6 +95,25 @@ export default function IntakeForm() {
             </>
           )}
         </p>
+      )}
+      {result?.kind === "dry_run" && (
+        <div style={{ marginTop: "1rem" }}>
+          <p style={{ color: "darkorange" }}>
+            Dry run — nothing was stored or sent to Claude. This is the exact request the
+            pipeline would send:
+          </p>
+          <pre
+            style={{
+              background: "#f5f5f5",
+              padding: "1rem",
+              overflowX: "auto",
+              fontSize: "0.8rem",
+              whiteSpace: "pre-wrap",
+            }}
+          >
+            {JSON.stringify(result.wouldSend, null, 2)}
+          </pre>
+        </div>
       )}
       {result?.kind === "error" && (
         <p style={{ color: "crimson", marginTop: "1rem" }}>{result.message}</p>

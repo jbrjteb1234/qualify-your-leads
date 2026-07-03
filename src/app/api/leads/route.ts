@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createLogger } from "@kit/logger";
 import { getSupabase, SupabaseNotConfiguredError } from "@/lib/supabase";
-import { extractLead, type Submission } from "@/lib/extract";
+import { buildExtractionRequest, extractLead, type Submission } from "@/lib/extract";
 import { loadScoringConfig, scoreLead } from "@/lib/scoring";
 
 export const runtime = "nodejs";
@@ -60,6 +60,15 @@ export async function POST(req: Request) {
   const { submission, errors } = validate(body);
   if (!submission) {
     return NextResponse.json({ errors }, { status: 400 });
+  }
+
+  // DRY_RUN=true: skip Supabase and Anthropic entirely; return the exact
+  // request that would be sent to Claude so the prompt can be evaluated
+  // without spending tokens. Needs no keys at all.
+  if (process.env.DRY_RUN === "true") {
+    const wouldSend = buildExtractionRequest(submission);
+    log.info("dry_run", { model: wouldSend.model });
+    return NextResponse.json({ dry_run: true, would_send: wouldSend }, { status: 200 });
   }
 
   let supabase: SupabaseClient;

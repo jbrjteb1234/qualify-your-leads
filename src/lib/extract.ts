@@ -1,4 +1,4 @@
-import { callClaude } from "@kit/claude";
+import { buildRequestParams, callClaude, type ClaudeCallOptions } from "@kit/claude";
 import { createLogger } from "@kit/logger";
 
 const log = createLogger("lib.extract");
@@ -65,6 +65,24 @@ You receive the raw submission as JSON. Return the fields exactly per the schema
 - parseable: false ONLY when the message is gibberish or contains no usable enquiry at all.
 Never invent information that is not in the submission.`;
 
+function extractionCallOptions(submission: Submission): ClaudeCallOptions {
+  return {
+    system: SYSTEM_PROMPT,
+    prompt: JSON.stringify(submission),
+    maxTokens: 1024,
+    jsonSchema: EXTRACTION_SCHEMA,
+  };
+}
+
+/**
+ * The exact request extractLead would send to Claude — used by DRY_RUN mode
+ * to preview the constructed prompt without spending tokens. Because it goes
+ * through the same builder as the real call, it cannot drift from it.
+ */
+export function buildExtractionRequest(submission: Submission) {
+  return buildRequestParams(extractionCallOptions(submission));
+}
+
 /**
  * Fail-safe extraction: returns the extracted lead, or null on ANY failure
  * (API error, refusal, truncation, unparseable JSON). Callers treat null as
@@ -72,12 +90,7 @@ Never invent information that is not in the submission.`;
  */
 export async function extractLead(submission: Submission): Promise<ExtractedLead | null> {
   try {
-    const result = await callClaude({
-      system: SYSTEM_PROMPT,
-      prompt: JSON.stringify(submission),
-      maxTokens: 1024,
-      jsonSchema: EXTRACTION_SCHEMA,
-    });
+    const result = await callClaude(extractionCallOptions(submission));
     if (result.stopReason !== "end_turn") {
       log.warn("extraction_bad_stop_reason", { stop_reason: result.stopReason });
       return null;
