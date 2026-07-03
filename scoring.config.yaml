@@ -1,0 +1,23 @@
+# Active scoring config. Swap this file for one in config-examples/ to change
+# scoring behaviour — no code changes needed, restart the dev server at most.
+name: estate-agent
+rules:
+  - field: budget_signals
+    when: not_empty
+    points: 30
+  - field: urgency_signals
+    when: not_empty
+    points: 25
+  - field: message
+    when: contains
+    values: [sell, selling, valuation, viewing, buy, mortgage, offer, let, rent]
+    points: 20
+  - field: phone
+    when: not_empty
+    points: 10
+  - field: company
+    when: not_empty
+    points: 5
+thresholds:
+  hot: 60
+  warm: 30

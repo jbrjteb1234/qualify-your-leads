@@ -1,0 +1,27 @@
+{
+  "name": "p1-lead-qualifier",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test:scoring": "tsx scripts/score-sample.ts"
+  },
+  "dependencies": {
+    "@kit/claude": "file:../../../kit/ts/claude",
+    "@kit/logger": "file:../../../kit/ts/logger",
+    "@supabase/supabase-js": "^2.49.0",
+    "next": "^15.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "yaml": "^2.7.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tsx": "^4.19.0",
+    "typescript": "^5"
+  }
+}

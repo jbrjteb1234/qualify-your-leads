@@ -1,0 +1,21 @@
+# Example: private clinic. Urgency and clinical keywords dominate; budget
+# matters less. The same enquiry scores differently under this config —
+# proving scoring is config-driven, not code-driven.
+name: clinic
+rules:
+  - field: urgency_signals
+    when: not_empty
+    points: 35
+  - field: message
+    when: contains
+    values: [appointment, consultation, pain, treatment, insurance, referral, scan]
+    points: 30
+  - field: phone
+    when: not_empty
+    points: 15
+  - field: budget_signals
+    when: not_empty
+    points: 10
+thresholds:
+  hot: 65
+  warm: 35
