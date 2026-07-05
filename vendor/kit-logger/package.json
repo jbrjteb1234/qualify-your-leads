@@ -1,0 +1,8 @@
+{
+  "name": "@kit/logger",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Structured JSON-lines logger shared across portfolio projects",
+  "main": "src/index.ts",
+  "types": "src/index.ts"
+}

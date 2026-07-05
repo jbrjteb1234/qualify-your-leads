@@ -11,8 +11,8 @@
     "seed:reset": "tsx scripts/seed.ts --reset"
   },
   "dependencies": {
-    "@kit/claude": "file:../../../kit/ts/claude",
-    "@kit/logger": "file:../../../kit/ts/logger",
+    "@kit/claude": "file:vendor/kit-claude",
+    "@kit/logger": "file:vendor/kit-logger",
     "@supabase/supabase-js": "^2.49.0",
     "next": "^15.3.0",
     "react": "^19.0.0",
