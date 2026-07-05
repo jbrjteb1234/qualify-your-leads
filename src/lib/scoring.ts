@@ -38,6 +38,11 @@ export function loadScoringConfig(filePath: string = DEFAULT_CONFIG_PATH): Scori
   ) {
     throw new Error(`Invalid scoring config at ${filePath}: needs numeric thresholds.hot and thresholds.warm`);
   }
+  if (thresholds.warm > thresholds.hot) {
+    throw new Error(
+      `Invalid scoring config at ${filePath}: thresholds.warm (${thresholds.warm}) must not exceed thresholds.hot (${thresholds.hot})`
+    );
+  }
   for (const rule of config.rules) {
     if (typeof rule.field !== "string" || typeof rule.points !== "number") {
       throw new Error(`Invalid rule in ${filePath}: each rule needs field and points`);
@@ -72,9 +77,12 @@ function ruleMatches(
     case "not_empty":
       return true;
     case "contains":
-      return (rule.values ?? []).some((v) =>
-        value.toLowerCase().includes(v.toLowerCase())
-      );
+      // Whole-word match, not substring — otherwise "let" matches "completing"
+      // and "rent" matches "current", silently inflating scores.
+      return (rule.values ?? []).some((v) => {
+        const escaped = v.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        return new RegExp(`\\b${escaped}\\b`, "i").test(value);
+      });
     case "equals":
       return (rule.values ?? []).some(
         (v) => value.trim().toLowerCase() === v.toLowerCase()

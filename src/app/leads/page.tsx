@@ -1,6 +1,9 @@
+import { createLogger } from "@kit/logger";
 import { getSupabase, SupabaseNotConfiguredError } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
+
+const log = createLogger("page.leads");
 
 interface LeadRow {
   id: string;
@@ -12,6 +15,12 @@ interface LeadRow {
 }
 
 const cell = { padding: "0.4rem 0.8rem", borderBottom: "1px solid #ddd", textAlign: "left" as const };
+
+const bandColour: Record<string, string> = {
+  hot: "#c0392b",
+  warm: "#e67e22",
+  cold: "#7f8c8d",
+};
 
 export default async function LeadsPage() {
   let leads: LeadRow[];
@@ -25,10 +34,14 @@ export default async function LeadsPage() {
     if (error) throw new Error(error.message);
     leads = (data ?? []) as LeadRow[];
   } catch (err) {
+    // Real error to the server log; generic message to the (public) page.
+    log.error("leads_page_load_failed", {
+      error: err instanceof Error ? err.message : String(err),
+    });
     const message =
       err instanceof SupabaseNotConfiguredError
         ? err.message
-        : `Could not load leads: ${err instanceof Error ? err.message : String(err)}`;
+        : "Could not load leads — please try again shortly.";
     return (
       <main>
         <h1>Leads</h1>
@@ -59,7 +72,15 @@ export default async function LeadsPage() {
                 <td style={cell}>{lead.extracted?.name ?? lead.raw?.name ?? "—"}</td>
                 <td style={cell}>{lead.extracted?.company ?? lead.raw?.company ?? "—"}</td>
                 <td style={cell}>{lead.score ?? "—"}</td>
-                <td style={cell}>{lead.band ?? "unparsed"}</td>
+                <td
+                  style={{
+                    ...cell,
+                    color: lead.band ? (bandColour[lead.band] ?? "#333") : "#999",
+                    fontWeight: lead.band === "hot" ? 700 : 400,
+                  }}
+                >
+                  {lead.band ?? "unparsed"}
+                </td>
                 <td style={cell}>{new Date(lead.created_at).toLocaleString("en-GB")}</td>
               </tr>
             ))}

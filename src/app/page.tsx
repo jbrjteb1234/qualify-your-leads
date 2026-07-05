@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from "react";
 
 type Result =
-  | { kind: "success"; id: string; status: string; score?: number; band?: string }
+  | { kind: "success"; id: string }
   | { kind: "dry_run"; wouldSend: unknown }
   | { kind: "error"; message: string; fieldErrors?: Record<string, string> };
 
@@ -30,7 +30,7 @@ export default function IntakeForm() {
         // Keep the form filled so the prompt can be tweaked and resubmitted.
         setResult({ kind: "dry_run", wouldSend: json.would_send });
       } else if (res.ok) {
-        setResult({ kind: "success", ...json });
+        setResult({ kind: "success", id: json.id });
         form.reset();
       } else if (json.errors) {
         setResult({
@@ -85,15 +85,7 @@ export default function IntakeForm() {
 
       {result?.kind === "success" && (
         <p style={{ color: "seagreen", marginTop: "1rem" }}>
-          Thanks — your enquiry has been received.
-          {result.band && (
-            <>
-              {" "}
-              <small>
-                (ref {result.id.slice(0, 8)}, scored {result.score}, band: {result.band})
-              </small>
-            </>
-          )}
+          Thanks — your enquiry has been received. <small>(ref {result.id.slice(0, 8)})</small>
         </p>
       )}
       {result?.kind === "dry_run" && (

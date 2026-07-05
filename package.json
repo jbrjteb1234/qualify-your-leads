@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test:scoring": "tsx scripts/score-sample.ts"
+    "test:scoring": "tsx scripts/score-sample.ts",
+    "seed": "tsx scripts/seed.ts",
+    "seed:reset": "tsx scripts/seed.ts --reset"
   },
   "dependencies": {
     "@kit/claude": "file:../../../kit/ts/claude",
