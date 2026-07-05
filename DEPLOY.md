@@ -4,18 +4,14 @@ The public repo is **github.com/jbrjteb1234/qualify-your-leads**. Supabase,
 Anthropic, HubSpot and Slack are external services reached over their APIs —
 the app itself is a single Next.js service.
 
-## Hosting (not yet connected)
+## Hosting — Vercel (LIVE)
 
-Not deployed yet. Two proven options:
+Production: **https://qualify-your-leads.vercel.app** — the Vercel project
+`qualify-your-leads` is imported from this repo, so **every push to `main`
+auto-deploys**. Env vars are set on the project (Production environment);
+manage them with `vercel env ls|add|rm production` or in the dashboard.
 
-- **Railway** (how P2's `ask-your-docs` is hosted): add a Dockerfile, connect
-  the repo, every push to `main` auto-deploys. Needs a Next.js standalone
-  Dockerfile — small task, not yet written.
-- **Vercel**: import the repo (framework auto-detected, no Dockerfile
-  needed) and set the environment variables below.
-
-Environment variables for either host (fill from your local `.env.local`;
-never commit them):
+Environment variables (fill from your local `.env.local`; never commit them):
 
 ```
 SUPABASE_URL=https://<your-project>.supabase.co

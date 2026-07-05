@@ -3,6 +3,10 @@
 **AI lead intake and qualification for small businesses — every enquiry caught,
 scored and answered with a human-approved draft in minutes, not mornings.**
 
+**Live demo:** <https://qualify-your-leads.vercel.app> — submit an enquiry,
+then watch it scored at [/leads](https://qualify-your-leads.vercel.app/leads)
+with its drafted reply at [/queue](https://qualify-your-leads.vercel.app/queue).
+
 [2-minute demo video — coming soon]
 
 ## The problem
