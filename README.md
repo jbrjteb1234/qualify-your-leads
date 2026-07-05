@@ -105,5 +105,5 @@ cost, no accounts needed.
 shows the same enquiry scoring differently under different business rules.
 
 Built with Next.js, Supabase and Claude. Everything runs on free tiers except
-AI usage (about a penny per enquiry on the default model — every call's exact
-cost is logged).
+AI usage (one to two pence per enquiry on the default model, measured live —
+every call's exact cost is logged).

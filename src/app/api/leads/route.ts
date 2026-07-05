@@ -147,7 +147,8 @@ export async function POST(req: Request) {
     const reason = !extracted ? "extraction_error" : "not_parseable";
     log.warn("unparsed", { lead_id: lead.id, reason });
     await recordEvent(supabase, lead.id, "extraction_failed", { reason });
-    return NextResponse.json({ id: lead.id, status: "received_unparsed" }, { status: 201 });
+    // Public status is always just "received" — parse state is internal.
+    return NextResponse.json({ id: lead.id, status: "received" }, { status: 201 });
   }
 
   const { error: extractUpdateError } = await supabase
