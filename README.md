@@ -110,4 +110,5 @@ shows the same enquiry scoring differently under different business rules.
 
 Built with Next.js, Supabase and Claude. Everything runs on free tiers except
 AI usage — about a penny per enquiry, measured live (Claude Sonnet; every
-call's exact cost is logged). The model is set by one env var
+call's exact cost is logged). The model is set by one env var, so you can dial
+quality vs cost per client without touching code.

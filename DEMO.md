@@ -73,4 +73,5 @@ Show the events table in Supabase (or describe over `/leads`).
 ---
 
 **Rules while recording:** never claim client results we don't have; the ROI
-framing is always "your number
+framing is always "your numbers" ("if a job is worth £X to you…"). British
+spelling on any text shown on screen.
