@@ -1,5 +1,7 @@
 # DEMO.md — Loom script (target: 2m30s)
 
+**Recorded 2026-07-12:** https://www.loom.com/share/375e3a6a34fc406e903bffbf9209987d
+
 **Prep before recording:** `npm run seed:reset`, dev server running, HubSpot
 contacts view open in a second tab, Slack channel visible (or screenshot ready),
 browser at the intake form. Close everything else. Full screen, cursor visible.
@@ -71,5 +73,4 @@ Show the events table in Supabase (or describe over `/leads`).
 ---
 
 **Rules while recording:** never claim client results we don't have; the ROI
-framing is always "your numbers" ("if a job is worth £X to you…"). British
-spelling on any text shown on screen.
+framing is always "your number

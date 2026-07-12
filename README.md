@@ -7,7 +7,7 @@ scored and answered with a human-approved draft in minutes, not mornings.**
 then watch it scored at [/leads](https://qualify-your-leads.vercel.app/leads)
 with its drafted reply at [/queue](https://qualify-your-leads.vercel.app/queue).
 
-[2-minute demo video — coming soon]
+**Watch it work (2½ minutes):** [Loom demo](https://www.loom.com/share/375e3a6a34fc406e903bffbf9209987d)
 
 ## The problem
 
@@ -110,5 +110,4 @@ shows the same enquiry scoring differently under different business rules.
 
 Built with Next.js, Supabase and Claude. Everything runs on free tiers except
 AI usage — about a penny per enquiry, measured live (Claude Sonnet; every
-call's exact cost is logged). The model is set by one env var, so you can dial
-quality vs cost per client without touching code.
+call's exact cost is logged). The model is set by one env var
